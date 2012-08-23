@@ -33,10 +33,9 @@ Foundation, for WordPress, features everything ZURB's Foundation Framework and H
 
 Clone the git repo - `git clone git://github.com/michaellautman/FlexPlus.git` - or, [download the archive](https://github.com/michaellautman/flexplus/zipball/master). 
 
-## Snippets
-
-
-```
+## Install
+Download the zip file and extract.  Upload the folder "flexplus" to wp-content/themes/ on your server.  Then upload the folder "wpalchemy" to  the wp-content/ directory on your server.  
+Activate and enjoy!
 
 
 ## Authors
