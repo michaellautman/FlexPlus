@@ -61,7 +61,7 @@ h1.site_title {display:<?php echo $options['103']?>;}
 		<div class="row">
 			
 				<!-- Header Column -->
-				<div class="twelve columns" id="access" role="navigation">
+				<div class="four columns" id="access" role="navigation">
 					
 					<span id="skipnav" class="show-for-touch"><a href="#content">Skip to Content?</a></span>
 				
@@ -72,9 +72,9 @@ h1.site_title {display:<?php echo $options['103']?>;}
 						<a href="<?php echo site_url(); ?>"><img src="<?php echo $options['100']?>"><h1 class="site_title"><?php bloginfo('title'); ?></h1></a>
 						<h4 class="subheader"><?php bloginfo('description'); ?></h4>
 					</hgroup>
-</div></div>
-<div class="row">
-<div class="twelve columns">
+</div>
+
+<div class="eights columns">
 					<!-- Navigation --> 					
  				    <?php wp_nav_menu( array( 'theme_location' => 'header-menu','menu_class' => 'nav-bar', 'container' => 'nav') ); ?>
 		</div>		
