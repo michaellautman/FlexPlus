@@ -15,7 +15,7 @@ add_theme_support( 'post-thumbnails' );
 
 show_admin_bar(FALSE);
 
-
+// Shortcodes
 // Options panel
 //require_once('library/options-panel.php');
 get_template_part('nhp', 'options');
@@ -43,10 +43,8 @@ function custom_style_wp_request( $wp ) {
     }
 
 
-//require_once('library/bones.php');            // core functions (don't remove)
-//require_once('library/plugins.php');          // plugins & extra functions (optional)
-require_once('library/custom-post-type.php'); // custom post type example
-// Shortcodes
+
+
 include('library/shortcodes.php');
 
 // Add theme support for Automatic Feed Links
@@ -522,107 +520,70 @@ include_once 'metaboxes/slider-spec.php';
 include_once 'metaboxes/shoutbox-spec.php';
 //include_once 'metaboxes/full-spec.php';
 //include_once 'metaboxes/modalbox-spec.php';
+/**
+* PressTrends Theme API
+*/
+function presstrends_theme() {
 
-// change the standard class that wordpress puts on the active menu item in the nav bar
-//Deletes all CSS classes and id's, except for those listed in the array below
-function custom_wp_nav_menu($var) {
-        return is_array($var) ? array_intersect($var, array(
-                //List of allowed menu classes
-                'current_page_item',
-                'current_page_parent',
-                'current_page_ancestor',
-                'first',
-                'last',
-                'vertical',
-                'horizontal'
-                )
-        ) : '';
+		// PressTrends Account API Key
+		$api_key = '86g6bplt711qijc0gpsxl41sv2sxgezvcv2g';
+		$auth = 'ttjnlwu6uzntwux5t2bdfpojlyd340goi';
+
+		// Start of Metrics
+		global $wpdb;
+		$data = get_transient( 'presstrends_theme_cache_data' );
+		if ( !$data || $data == '' ) {
+			$api_base = 'http://api.presstrends.io/index.php/api/sites/add/auth/';
+			$url      = $api_base . $auth . '/api/' . $api_key . '/';
+
+			$count_posts    = wp_count_posts();
+			$count_pages    = wp_count_posts( 'page' );
+			$comments_count = wp_count_comments();
+
+			// wp_get_theme was introduced in 3.4, for compatibility with older versions.
+			if ( function_exists( 'wp_get_theme' ) ) {
+				$theme_data    = wp_get_theme();
+				$theme_name    = urlencode( $theme_data->Name );
+				$theme_version = $theme_data->Version;
+			} else {
+				$theme_data = get_theme_data( get_stylesheet_directory() . '/style.css' );
+				$theme_name = $theme_data['Name'];
+				$theme_versino = $theme_data['Version'];
+			}
+
+			$plugin_name = '&';
+			foreach ( get_plugins() as $plugin_info ) {
+				$plugin_name .= $plugin_info['Name'] . '&';
+			}
+			$posts_with_comments = $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->posts WHERE post_type='post' AND comment_count > 0" );
+			$data                = array(
+				'url'             => stripslashes( str_replace( array( 'http://', '/', ':' ), '', site_url() ) ),
+				'posts'           => $count_posts->publish,
+				'pages'           => $count_pages->publish,
+				'comments'        => $comments_count->total_comments,
+				'approved'        => $comments_count->approved,
+				'spam'            => $comments_count->spam,
+				'pingbacks'       => $wpdb->get_var( "SELECT COUNT(comment_ID) FROM $wpdb->comments WHERE comment_type = 'pingback'" ),
+				'post_conversion' => ( $count_posts->publish > 0 && $posts_with_comments > 0 ) ? number_format( ( $posts_with_comments / $count_posts->publish ) * 100, 0, '.', '' ) : 0,
+				'theme_version'   => $theme_version,
+				'theme_name'      => $theme_name,
+				'site_name'       => str_replace( ' ', '', get_bloginfo( 'name' ) ),
+				'plugins'         => count( get_option( 'active_plugins' ) ),
+				'plugin'          => urlencode( $plugin_name ),
+				'wpversion'       => get_bloginfo( 'version' ),
+				'api_version'	  => '2.4',
+			);
+
+			foreach ( $data as $k => $v ) {
+				$url .= $k . '/' . $v . '/';
+			}
+			wp_remote_get( $url );
+			set_transient( 'presstrends_theme_cache_data', $data, 60 * 60 * 24 );
+		}
 }
-add_filter('nav_menu_css_class', 'custom_wp_nav_menu');
-add_filter('nav_menu_item_id', 'custom_wp_nav_menu');
-add_filter('page_css_class', 'custom_wp_nav_menu');
- 
-//Replaces "current-menu-item" with "active"
-function current_to_active($text){
-        $replace = array(
-                //List of menu item classes that should be changed to "active"
-                'current_page_item' => 'active',
-                'current_page_parent' => 'active',
-                'current_page_ancestor' => 'active',
-        );
-        $text = str_replace(array_keys($replace), $replace, $text);
-                return $text;
-        }
-add_filter ('wp_nav_menu','current_to_active');
- 
-//Deletes empty classes and removes the sub menu class
-function strip_empty_classes($menu) {
-    $menu = preg_replace('/ class=""| class="sub-menu"/','',$menu);
-    return $menu;
-}
-add_filter ('wp_nav_menu','strip_empty_classes');
 
+// PressTrends WordPress Action
+add_action('admin_init', 'presstrends_theme');
+		
 
-// add the 'has-flyout' class to any li's that have children and add the arrows to li's with children
-
-class description_walker extends Walker_Nav_Menu
-{
-      function start_el(&$output, $item, $depth, $args)
-      {
-            global $wp_query;
-            $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
-            
-            $class_names = $value = '';
-            
-            // If the item has children, add the dropdown class for foundation
-            if ( $args->has_children ) {
-                $class_names = "has-flyout ";
-            }
-            
-            $classes = empty( $item->classes ) ? array() : (array) $item->classes;
-            
-            $class_names .= join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item ) );
-            $class_names = ' class="'. esc_attr( $class_names ) . '"';
-           
-            $output .= $indent . '<li id="menu-item-'. $item->ID . '"' . $value . $class_names .'>';
-
-            $attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
-            $attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
-            $attributes .= ! empty( $item->xfn )        ? ' rel="'    . esc_attr( $item->xfn        ) .'"' : '';
-            $attributes .= ! empty( $item->url )        ? ' href="'   . esc_attr( $item->url        ) .'"' : '';
-            // if the item has children add these two attributes to the anchor tag
-            // if ( $args->has_children ) {
-            //     $attributes .= 'class="dropdown-toggle" data-toggle="dropdown"';
-            // }
-
-            $item_output = $args->before;
-            $item_output .= '<a'. $attributes .'>';
-            $item_output .= $args->link_before .apply_filters( 'the_title', $item->title, $item->ID );
-            $item_output .= $args->link_after;
-            // if the item has children add the caret just before closing the anchor tag
-            if ( $args->has_children ) {
-                $item_output .= '</a><a href="#" class="flyout-toggle"><span> </span></a>';
-            }
-            else{
-                $item_output .= '</a>';
-            }
-            $item_output .= $args->after;
-
-            $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
-            }
-            
-        function start_lvl(&$output, $depth) {
-            $indent = str_repeat("\t", $depth);
-            $output .= "\n$indent<ul class=\"flyout\">\n";
-        }
-            
-        function display_element( $element, &$children_elements, $max_depth, $depth=0, $args, &$output )
-            {
-                $id_field = $this->db_fields['id'];
-                if ( is_object( $args[0] ) ) {
-                    $args[0]->has_children = ! empty( $children_elements[$element->$id_field] );
-                }
-                return parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
-            }       
-}
 ?>
