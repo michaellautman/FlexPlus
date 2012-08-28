@@ -32,7 +32,7 @@
 
 html { font-size: 62.5%; }
 
-body { background: white; font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1;  color: #222222;position: relative; -webkit-font-smoothing: antialiased; }
+body { font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1;  color: #222222;position: relative; -webkit-font-smoothing: antialiased; }
 /**/
 
 /* Links ---------------------- */
@@ -725,14 +725,16 @@ div.button-bar ul.button-group:last-child { margin-left: 0; }
 .nav-bar { height: 40px; background: #4d4d4d; margin-top: 20px; padding: 0; }
 .nav-bar > li { float: left; display: block; position: relative; padding: 0; margin: 0; border: 1px solid #333333; border-right: none; line-height: 38px; -webkit-box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2) inset; -moz-box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2) inset; box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2) inset; }
 .nav-bar > li:first-child { -webkit-box-shadow: 0 0 0; -moz-box-shadow: 0 0 0; box-shadow: 0 0 0; }
-.nav-bar > li:last-child { border-right: solid 1px #333333; -webkit-box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2) inset, 1px 0 0 rgba(255, 255, 255, 0.2); -moz-box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2) inset, 1px 0 0 rgba(255, 255, 255, 0.2); box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2) inset, 1px 0 0 rgba(255, 255, 255, 0.2); }
-.nav-bar > li.active { background: #2ba6cb; border-color: #2284a1; }
+.nav-bar > li:last-child { border-right: solid 1px #333333; -webkit-box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2) inset, 1px 0 0 rgba(255, 255, 255, 0.2); -moz-box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2) inset, 1px 0 0 rgba(255, 255, 255, 0.2); box-shadow: 1px 0 0 rgba(255, 255, 255, 0.2) inset, 1px 0 0 rgba(255, 255, 255, 0.2);}
+/*.nav-bar > li:last-child:hover .flyout {width:150px;}*/
+.nav-bar > li.active, .nav-bar >li.current-menu-item { background: #2ba6cb; border-color: #2284a1; }
 .nav-bar > li.active > a { color: white; cursor: default; }
-.nav-bar > li.active:hover { background: #2ba6cb; cursor: default; }
+.nav-bar > li.active:hover, .nav-bar > li.current-menu-item:hover { background: #2ba6cb; cursor: default; }
 .nav-bar > li:hover { background: #333333; }
 .nav-bar > li > a { color: #e6e6e6; }
 .nav-bar > li ul { margin-bottom: 0; }
 .nav-bar > li .flyout { display: none; }
+.nav-bar > li:hover .flyout {display:block;z-index:40;}
 .nav-bar > li.has-flyout > a:first-child { padding-right: 36px; position: relative; }
 .nav-bar > li.has-flyout > a:first-child:after { content: ""; display: block; width: 0; height: 0; border: solid 4px; border-color: #e6e6e6 transparent transparent transparent; position: absolute; right: 20px; top: 17px; }
 .nav-bar > li.has-flyout > a.flyout-toggle { border-left: 0 !important; position: absolute; right: 0; top: 0; padding: 22px; z-index: 2; display: block; }

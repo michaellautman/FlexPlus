@@ -41,3 +41,6 @@ aside.four.columns ul, aside.four.columns ul li  {list-style-type:none !importan
 
 /*Orbit Slider Styles*/
 #flexplus_slider {background:#F4F4F4;}
+
+/*Home Page (2/3 Slider)*/
+#flexplus_shoutbox {min-height:1px;}

@@ -7,14 +7,14 @@ Template Name: Home(2/3 Slider)
 get_header(); ?>
 <?php $meta = get_post_meta(get_the_ID(), $slider_mb->get_the_id(), TRUE); ?>
 <?php $meta = get_post_meta(get_the_ID(),$shoutbox_mb->get_the_id(),TRUE); ?>
-<div class="row">
+
 <div class="eight columns">
 
 <div id="flexplus_slider">
 <?php echo $meta['flexplus_slider_code']; ?>
 
 	
-</div>	
+</div>	</div>
 <div class="four columns">
 <div id="flexplus_shoutbox">
 <?php echo $meta['flexplus_shoutbox_code']; ?>

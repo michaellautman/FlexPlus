@@ -242,6 +242,19 @@ $sections[] = array(
 				)
 				);	
 $sections[] = array(
+				'icon' => NHP_OPTIONS_URL.'img/glyphicons/glyphicons_030_pencil.png',
+				'title' =>__('Body Style Options','nhp-opts'),
+				'desc' =>__('<p class="description">Set the Style Options for Your Site</p>','nhp-opts'),
+				'fields'=> array(
+					array(
+						'id' => '300',
+						'type' => 'color',
+						'title' => __('Body Background Color','nhp-opts'),
+						'std' => '#ffffff',
+						)
+						)
+						);
+$sections[] = array(
 				'icon' => NHP_OPTIONS_URL.'img/glyphicons/glyphicons_107_text_resize.png',
 				'title' => __('General Options', 'nhp-opts'),
 				'desc' => __('<p class="description">This is the Description. Again HTML is allowed2</p>', 'nhp-opts'),
