@@ -3,31 +3,29 @@
 FlexPlus for WordPress, is a 1140px-wide blank starter theme with the exceptional capabilities of :
 [ZURB's Foundation 3 Framework](http://foundation.zurb.com/)
 [HTML5 Boilerplate](http://html5boilerplate.com/)
-[NHP Theme Options] (https://github.com/leemason/NHP-Theme-Options-Framework)
-[WP Alchemy] (http://wpalchemy.com)
+[Bones](http://themble.com/bones/)
 
 It was inspired by Foundation, for WordPress (https://github.com/drewsymo/Foundation) and WP-Foundation (http://320press.com/wp-foundation/)
 
 ## Demonstration
 
-You can view FlexPlus for WordPress online at this address: [http://sandbox.lautman.ca](http://sandbox.lautman.ca)
+You can view FlexPlus for WordPress online at this address: [http://flexplus.lautman.ca](http://sandbox.lautman.ca)
 ## Features
 
 Foundation, for WordPress, features everything ZURB's Foundation Framework and HTML5 Boilerplate have to offer, however, some changes have been made to tailer it to WordPress, these include:
 
 * All your common WordPress template files
-* Two different homepage layouts
-* Left sidebar or right sidebar
+* Javascripts have been combined and minified to reduce server load.
 * Full width page
 * 4 footer widget areas
 * Orbit for WordPress, ZURB's image and content slider tailored for WordPress, with the ability to add different sliders to different pages.
 * A growing list of shortcodes for columns, buttons and panels
 * Clean, validated code
-* Two sidebars (one on the right & one on the footer)
+* Mobile nav menu
 * A little snippet that 'hides' the address bar on the iPhone
 * An extremely awesome pagination script by @ericmartin, using Foundations pagination CSS
 * An improved viewport snippet, allowing the same scale over horizontal and portrait orientations
-* Custom metaboxes for added customization
+
 
 ## Download
 
@@ -64,6 +62,5 @@ For more information about the licensing involved with FlexPlus for WordPress' m
 
 * [ZURB's Foundation Framework](http://foundation.zurb.com/) (MIT Open License)
 * [HTML5 Boilerplate](http://html5boilerplate.com/) (Public Domain)
-* [WP Alchemy] (http://wpalchemy.com) (MIT Open License)
-* [NHP Options Framework] (https://github.com/leemason/NHP-Theme-Options-Framework) 
+ 
 
