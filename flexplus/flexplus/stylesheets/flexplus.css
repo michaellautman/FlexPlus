@@ -1,0 +1,129 @@
+
+.container {width:100%;}
+/*Search Box Styles*/
+.four.columns ul, .four.columns ul li  {list-style-type:none !important;}
+
+
+
+/*Footer*/
+
+.site_credits {font-size:0.8em;float:right;}
+
+
+
+/*Orbit Slider Styles*/
+
+#flexplus_slider {background:#F4F4F4;}
+
+
+
+/*Typography*/
+.center-text {text-align:center;}
+
+/*Top Nav Bar*/
+#top-bar {padding-top:none; background-color:#4d4d4d;height:40px;}
+#top-bar .nav-bar  {margin-top:0 !important;}
+
+/*Header*/
+#header-bar {background-color:#2aa6ca;margin-bottom:5px}
+.nav-bar {margin-top:0;}
+h3.site_title {color:#ffffff; margin-top:5px;}
+h1.site_title {color:#ffffff; font-size:60px;}
+
+/*Mobile Menu Button*/
+#sidebarButton.button {display:inline-block !important;background-color:transparent !important; border:none !important;}
+/*Mobile Nav Bar*/
+ul.side-nav.vertical {padding: 0px !important;}
+
+/*Sidebar Widget Styles*/
+li.widget {list-style-type:none;}
+
+/* =WordPress Core
+-------------------------------------------------------------- */
+.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+.aligncenter,
+div.aligncenter {
+    display: block;
+    margin: 5px auto 5px auto;
+}
+
+.alignright {
+    float:right;
+    margin: 5px 0 20px 20px;
+}
+
+.alignleft {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
+
+.aligncenter {
+    display: block;
+    margin: 5px auto 5px auto;
+}
+
+a img.alignright {
+    float: right;
+    margin: 5px 0 20px 20px;
+}
+
+a img.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+a img.alignleft {
+    float: left;
+    margin: 5px 20px 20px 0;
+}
+
+a img.aligncenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.wp-caption {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    max-width: 96%; /* Image does not overflow the content area */
+    padding: 5px 3px 10px;
+    text-align: center;
+}
+
+.wp-caption.alignnone {
+    margin: 5px 20px 20px 0;
+}
+
+.wp-caption.alignleft {
+    margin: 5px 20px 20px 0;
+}
+
+.wp-caption.alignright {
+    margin: 5px 0 20px 20px;
+}
+
+.wp-caption img {
+    border: 0 none;
+    height: auto;
+    margin: 0;
+    max-width: 98.5%;
+    padding: 0;
+    width: auto;
+}
+
+.wp-caption p.wp-caption-text {
+    font-size: 11px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0 4px 5px;
+} 
+
+/* --END WORDPRESS CORE --*/
+
+/* This is for all IE specfific style less than IE9. We hate IE. */
+	div.panel { border: 1px solid #ccc; }
+	.lt-ie8 .nav-bar li.has-flyout a { padding-right: 20px; }
+	.lt-ie8 .nav-bar li.has-flyout a:after { border-top: none; }
