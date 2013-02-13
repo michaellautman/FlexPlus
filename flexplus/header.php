@@ -67,19 +67,14 @@
 <header itemscope itemtype="http://schema.org/WPHeader">		
 <div id="top-bar" class="container">
 
-
-<div class="row hide-for-small">
-<div class="four columns">
+<div class="row">
+<div class="four mobile-three columns">
 	<a href="<?php echo site_url(); ?>"><h3 class="site_title"><?php bloginfo('title'); ?></h3></a>
-	</div>
-<div class="eight columns" >
-	<nav id="menu" role="navigation" class="hide-for-small right" itemscope itemtype="http://schema.org/SiteNavigationElement"  ><?php bones_main_nav (array( 'theme_location' => 'top-menu','menu_class' => 'nav-bar', 'container' => 'nav', 'fallback_cb' =>'wp_page_menu'	) ); ?></nav>
-	</div>
-	</div>
 	
-	<div class="row show-for-small">
-		<div class="mobile-one columns">
-			<div class="show-for-small  menu-action">
+	</div>
+<div class="eight mobile-one columns" >
+	<nav id="menu" role="navigation" class="hide-for-small right" itemscope itemtype="http://schema.org/SiteNavigationElement"  ><?php bones_main_nav (array( 'theme_location' => 'top-menu','menu_class' => 'nav-bar', 'container' => 'nav', 'fallback_cb' =>'wp_page_menu'	) ); ?></nav>
+	<div class="show-for-small  menu-action">
   	    <a class='sidebar-button small secondary button' id='sidebarButton' href="#sidebar">
     	    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="24px" height="24px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" xml:space="preserve">
@@ -90,17 +85,13 @@
   	    </a>
 	
   	  </div>
-			
-		</div>
-		<div class="mobile-three columns">
-			<a href="<?php echo site_url(); ?>"><h3 class="site_title"><?php bloginfo('title'); ?></h3></a>
-		</div>
-
 	</div>
-
-</div>
+	</div>
+	
 	
 
+
+</div>
 
 </header>
 	

@@ -2,6 +2,7 @@
 
 	<footer class="container">
 	<div class="row">
+	<div class="row">
     <div class="three columns">
     <?php if (!function_exists('dynamic_sidebar') || !dynamic_sidebar('Footer Area 1')) : ?>
 	<div class="alert-box"><h4>Hey! You!</h4>
@@ -47,7 +48,8 @@
             <div class="six columns">
             <span class="site_credits">FlexPlus for Wordpress.  Lovingly crafted by <a href="http://lautman.ca" target="_blank">Montreal Web Designers - The Lautman Group</a>.</span>
 	</div>
-    </div>
+   
+	</div>
 	</footer>
 	
 </div>
