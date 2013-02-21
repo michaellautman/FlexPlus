@@ -13,18 +13,21 @@
 	<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 	
 		<!-- Begin the first div -->
-		<div>
+		<article itemscope itemtype="http://schema.org/BlogPosting">
+				<header class="article-header">
+		
 				
-			<h2>
+			<h2 itemprop="name" class="page-title">
 				<?php the_title(); ?>
 			</h2>
-			
+			</header>
 			<!-- Display the Page's Content in a div box. -->
-			<div class="entry">
+			<section class="entry">
+			
 				<?php the_content(); ?>
-			</div>
+			</section>
 		
-		</div>
+		<?php wp_link_pages(); ?>
 		<!-- Closes the first div -->
 	
 	<!-- Stop The Loop (but note the "else:" - see next line). -->

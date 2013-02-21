@@ -30,6 +30,7 @@
 			
 			<!-- Display a comma separated list of the Post's Categories. -->
 		<footer>
+		
 			<p class="tags" itemprop="keywords"><?php the_tags('<span class="tags-title">Tags:</span> ', ', ', ''); ?></p>
 
 		</footer>
@@ -37,7 +38,10 @@
 		<!-- Closes the first article -->
 		
 		<!-- Begin Comments -->
-	    <?php comments_template(); ?>
+		
+	<?php comments_template( '/comments.php', true ); ?> 	
+
+	
 	    <!-- End Comments -->
 	
 	<!-- Stop The Loop (but note the "else:" - see next line). -->

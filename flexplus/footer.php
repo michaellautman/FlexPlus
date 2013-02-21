@@ -23,8 +23,9 @@
         </div>
             <div class="three columns">
     <?php if (!function_exists('dynamic_sidebar') || !dynamic_sidebar('Footer Area 4')) : ?>
-		<div class="alert-box"><h4>Hey! You!</h4>
-		You should like, so test out this dynamic sidebar. Check it out in Appearance > Widgets!</div>
+		<ul>
+<?php wp_list_pages('title_li='); ?>
+</ul>
 		<?php endif; ?>
         </div>
         </div>

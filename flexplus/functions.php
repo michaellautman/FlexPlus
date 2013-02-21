@@ -4,7 +4,11 @@
 function remove_generators() {
 	return '';
 }		
-
+// Adding Translation Option
+load_theme_textdomain( 'flexplustheme', TEMPLATEPATH.'/languages' );
+$locale = get_locale();
+$locale_file = TEMPLATEPATH."/languages/$locale.php";
+if ( is_readable($locale_file) ) require_once($locale_file);
 add_filter('the_generator','remove_generators');
 
 // Add thumbnail support
@@ -21,6 +25,8 @@ show_admin_bar(FALSE);
 
 require_once('library/bones.php');
 include('library/shortcodes.php');
+if (file_exists('/custom-functions.php'))
+	include_once('/custom-functions.php');
 
 // Add theme support for Automatic Feed Links
 
@@ -35,56 +41,40 @@ function replace_cat_tag ( $text ) {
 $text = str_replace('rel="category tag"', 'rel="tag"', $text); return $text;
 }
 
-
+if ( ! isset( $content_width ) ) $content_width = 900;
 /************* ENQUEUE CSS AND JS *****************/
+$filename = '/custom.css';
+if (file_exists($filename))
+{
+function custom_style() {
+	wp_register_style('custom-css', get_template_directory_uri() . '/custom.css');
+		wp_enqueue_style ( 'custom-css', array(), array(), false);
+				}
+				
+add_action ('wp_enqueue_scripts','custom_style');
+}
 
 function theme_styles()  
-{ 
-    // Bring in Open Sans from Google fonts
-	// wp_register_style( 'open-sans', 'http://fonts.googleapis.com/css?family=Open+Sans:300,800');
-    // This is the compiled css file from SCSS
-	//wp_register_style( 'app-css', get_template_directory_uri() . '/stylesheets/app.css');
-	wp_register_style('offcanvas-css', get_template_directory_uri() . '/stylesheets/offcanvas.css'); 
+{  
+	
 	wp_register_style('foundation-css', get_template_directory_uri() . '/stylesheets/foundation.css');
-	wp_register_style('flexplus-css', get_template_directory_uri() . '/stylesheets/flexplus.css');
+	//wp_register_style('flexplus-css', get_template_directory_uri() . '/stylesheets/flexplus.css');
 	
-	
-	wp_enqueue_style ( 'foundation-css', array(), array(), false);
-	//wp_enqueue_style( 'open-sans', array(), array(), false );
 	//wp_enqueue_style( 'app-css', array(), array(), false);
-	wp_enqueue_style( 'offcanvas-css', array(), array(), false);
-	wp_enqueue_style( 'flexplus-css', array(), array(), false);
-
-}
+	wp_enqueue_style( 'foundation-css', array(), array(), false);
+	}
 
 add_action('wp_enqueue_scripts', 'theme_styles');
 
 /************* ENQUEUE JS *************************/
 
 /* pull jquery from google's CDN. If it's not available, grab the local copy. Code from wp.tutsplus.com :-) */
-
-$url = 'http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'; // the URL to check against  
-$test_url = @fopen($url,'r'); // test parameters  
-if( $test_url !== false ) { // test if the URL exists  
-
-    function load_external_jQuery() { // load external file  
-        wp_deregister_script( 'jquery' ); // deregisters the default WordPress jQuery  
-        wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js', false, '1.9.0', false); // register the external file  
-        wp_enqueue_script('jquery'); // enqueue the external file  
-    }  
-
-    add_action('wp_enqueue_scripts', 'load_external_jQuery'); // initiate the function  
-} else {  
-
-    function load_local_jQuery() {  
-        wp_deregister_script('jquery'); // initiate the function  
-        wp_register_script('jquery', bloginfo('template_url').'/javascripts/jquery.min.js', __FILE__, false, '1.7.2', true); // register the local file  
-        wp_enqueue_script('jquery'); // enqueue the local file  
-    }  
-
-    add_action('wp_enqueue_scripts', 'load_local_jQuery'); // initiate the function  
-}  
-
+if (!is_admin()) add_action("wp_enqueue_scripts", "my_jquery_enqueue", 11);
+function my_jquery_enqueue() {
+   wp_deregister_script('jquery');
+   wp_register_script('jquery', "http" . ($_SERVER['SERVER_PORT'] == 443 ? "s" : "") . "://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js", false, null);
+   wp_enqueue_script('jquery');
+}
 /* load modernizr from foundation */
 function modernize_it(){
     wp_register_script( 'modernizr', get_template_directory_uri() . '/javascripts/foundation/modernizr.foundation.js', array(), false, true ); 
@@ -96,17 +86,19 @@ add_action( 'wp_enqueue_scripts', 'modernize_it' );
 function foundation_js(){
    wp_register_script( 'foundation-app', get_template_directory_uri() . '/javascripts/foundation/app.min.js', __FILE__, false, true);
 	wp_enqueue_script ( 'foundation-app');
-	wp_register_script ('foundation-js', get_template_directory_uri() . '/javascripts/foundation/foundation.min.min.js', __FILE__, false, true);
+	wp_register_script ('foundation-js', get_template_directory_uri() . '/javascripts/foundation/foundation.min.min.js', __FILE__, 'jQuery', false, true);
 	wp_enqueue_script ('foundation-js');
 	wp_register_script( 'foundation-mediaQueryToggle', get_template_directory_uri() . '/javascripts/foundation/jquery.foundation.mediaQueryToggle.min.js', 'jQuery', false, true);
 	wp_enqueue_script ( 'foundation-mediaQueryToggle');
-	wp_register_script( 'foundation-navigation', get_template_directory_uri() . '/javascripts/foundation/jquery.foundation.navigation.min.js', 'jQuery', false, false);
+	wp_register_script( 'foundation-navigation', get_template_directory_uri() . '/javascripts/foundation/jquery.foundation.navigation.min.js', array(), false, false);
 	wp_enqueue_script ( 'foundation-navigation');
 	wp_register_script( 'foundation-offcanvas', get_template_directory_uri() . '/javascripts/foundation/jquery.offcanvas.min.js', 'jQuery', false, true);
 	wp_enqueue_script('foundation-offcanvas');
 	  wp_register_script( 'foundation-placeholder', get_template_directory_uri() . '/javascripts/foundation/jquery.placeholder.min.js', 'jQuery', false, true ); 
     wp_enqueue_script( 'foundation-placeholder');
+
 }
+
 add_action('wp_enqueue_scripts', 'foundation_js');
 
 function wp_foundation_js(){
@@ -328,36 +320,36 @@ function commenter_link() {
 
 // Custom Pagination
 /**
- * Retrieve or display pagination code.
- *
- * The defaults for overwriting are:
- * 'page' - Default is null (int). The current page. This function will
- *      automatically determine the value.
- * 'pages' - Default is null (int). The total number of pages. This function will
- *      automatically determine the value.
- * 'range' - Default is 3 (int). The number of page links to show before and after
- *      the current page.
- * 'gap' - Default is 3 (int). The minimum number of pages before a gap is 
- *      replaced with ellipses (...).
- * 'anchor' - Default is 1 (int). The number of links to always show at begining
- *      and end of pagination
- * 'before' - Default is '<div class="emm-paginate">' (string). The html or text 
- *      to add before the pagination links.
- * 'after' - Default is '</div>' (string). The html or text to add after the
- *      pagination links.
- * 'next_page' - Default is '__('&raquo;')' (string). The text to use for the 
- *      next page link.
- * 'previous_page' - Default is '__('&laquo')' (string). The text to use for the 
- *      previous page link.
- * 'echo' - Default is 1 (int). To return the code instead of echo'ing, set this
- *      to 0 (zero).
- *
- * @author Eric Martin <eric@ericmmartin.com>
- * @copyright Copyright (c) 2009, Eric Martin
- * @version 1.0
- *
- * @param array|string $args Optional. Override default arguments.
- * @return string HTML content, if not displaying.
+// * Retrieve or display pagination code.
+// *
+// * The defaults for overwriting are:
+// * 'page' - Default is null (int). The current page. This function will
+ // *      automatically determine the value.
+ // * 'pages' - Default is null (int). The total number of pages. This function will
+ // *      automatically determine the value.
+ // * 'range' - Default is 3 (int). The number of page links to show before and after
+ // *      the current page.
+ // * 'gap' - Default is 3 (int). The minimum number of pages before a gap is 
+ // *      replaced with ellipses (...).
+ // * 'anchor' - Default is 1 (int). The number of links to always show at begining
+ // *      and end of pagination
+ // * 'before' - Default is '<div class="emm-paginate">' (string). The html or text 
+ // *      to add before the pagination links.
+ // * 'after' - Default is '</div>' (string). The html or text to add after the
+ // *      pagination links.
+ // * 'next_page' - Default is '__('&raquo;','flexplustheme')' (string). The text to use for the 
+ // *      next page link.
+ // * 'previous_page' - Default is '__('&laquo','flexplustheme')' (string). The text to use for the 
+ // *      previous page link.
+ // * 'echo' - Default is 1 (int). To return the code instead of echo'ing, set this
+ // *      to 0 (zero).
+ // *
+ // * @author Eric Martin <eric@ericmmartin.com>
+ // * @copyright Copyright (c) 2009, Eric Martin
+ // * @version 1.0
+ // *
+ //* @param array|string $args Optional. Override default arguments.
+ // * @return string HTML content, if not displaying.
  */
 function emm_paginate($args = null) {
 	$defaults = array(
@@ -365,7 +357,7 @@ function emm_paginate($args = null) {
 		'range' => 3, 'gap' => 3, 'anchor' => 1,
 		'before' => '<ul class="pagination">', 'after' => '</ul>',
 		'title' => __('<li class="unavailable"></li>'),
-		'nextpage' => __('&raquo;'), 'previouspage' => __('&laquo'),
+		'nextpage' => __('&raquo;','flexplustheme'), 'previouspage' => __('&laquo','flexplustheme'),
 		'echo' => 1
 	);
 
@@ -489,7 +481,22 @@ function flexplus_formatter($content) {
 
 	return $new_content;
 }
+function my_formatter($content) {
+	$new_content = '';
+	$pattern_full = '{(\[raw\].*?\[/raw\])}is';
+	$pattern_contents = '{\[raw\](.*?)\[/raw\]}is';
+	$pieces = preg_split($pattern_full, $content, -1, PREG_SPLIT_DELIM_CAPTURE);
 
+	foreach ($pieces as $piece) {
+		if (preg_match($pattern_contents, $piece, $matches)) {
+			$new_content .= $matches[1];
+		} else {
+			$new_content .= wptexturize(wpautop($piece));
+		}
+	}
+
+	return $new_content;
+}
 // Remove the 2 main auto-formatters
 remove_filter('the_content', 'wpautop');
 remove_filter('the_content', 'wptexturize');
@@ -497,6 +504,7 @@ remove_filter('the_content', 'wptexturize');
 // Before displaying for viewing, apply this function
 add_filter('the_content', 'flexplus_formatter', 99);
 add_filter('widget_text', 'flexplus_formatter', 99);
+add_filter('the_content', 'my_formatter', 99);
 
 //include_once 'metaboxes/modalbox-spec.php';
 //NAVIGATION

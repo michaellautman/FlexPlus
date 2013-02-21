@@ -6,7 +6,7 @@
 */
 get_header(); ?>
 <div class="container">
-<div class="row">
+<div class="row" id="first-row">
 	<section role="main">
 		<div class="row">
 <div class="twelve columns">
@@ -20,7 +20,7 @@ get_header(); ?>
 		<!-- Begin the first div -->
 		<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
 				
-			<h2>
+			<h2 itemprop="name" class="page-title">
 				<?php the_title(); ?>
 			</h2>
 			
